@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: customer-service-dev
+  namespace: argocd
+
+spec:
+  project: default
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: baraza-banking
+
+  sources:
+    - repoURL: https://github.com/AndrewKMwangi/baraza-banking-platform.git
+      targetRevision: main
+      path: infrastructure/helm/customer-service
+      helm:
+        valueFiles:
+          - $values/customer-service/dev/values.yaml
+
+    - repoURL: https://github.com/AndrewKMwangi/baraza-banking-gitops.git
+      targetRevision: main
+      ref: values
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=false
