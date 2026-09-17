@@ -13,7 +13,7 @@ spec:
 
   sources:
     - repoURL: https://github.com/AndrewKMwangi/baraza-banking-platform.git
-      targetRevision: main
+      targetRevision: 631390c90118724f1cb4cf87f8aa233124321fbf
       path: infrastructure/helm/customer-service
       helm:
         valueFiles:
