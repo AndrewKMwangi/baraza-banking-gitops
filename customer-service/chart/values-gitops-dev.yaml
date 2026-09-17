@@ -4,3 +4,9 @@ image:
   repository: ghcr.io/andrewkmwangi/customer-service
   tag: 631390c90118724f1cb4cf87f8aa233124321fbf
   pullPolicy: IfNotPresent
+
+startupProbe:
+  tcpSocket:
+    port: 8080
+  periodSeconds: 10
+  failureThreshold: 15
