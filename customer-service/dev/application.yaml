@@ -7,25 +7,23 @@ metadata:
 spec:
   project: default
 
+  source:
+    repoURL: https://github.com/AndrewKMwangi/baraza-banking-gitops.git
+    targetRevision: main
+    path: customer-service/chart
+
+    helm:
+      valueFiles:
+        - values-gitops-dev.yaml
+
   destination:
     server: https://kubernetes.default.svc
     namespace: baraza-banking
-
-  sources:
-    - repoURL: https://github.com/AndrewKMwangi/baraza-banking-platform.git
-      targetRevision: 631390c90118724f1cb4cf87f8aa233124321fbf
-      path: infrastructure/helm/customer-service
-      helm:
-        valueFiles:
-          - $values/customer-service/dev/values.yaml
-
-    - repoURL: https://github.com/AndrewKMwangi/baraza-banking-gitops.git
-      targetRevision: main
-      ref: values
 
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
+
     syncOptions:
       - CreateNamespace=false
