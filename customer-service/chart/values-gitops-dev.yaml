@@ -2,7 +2,7 @@ replicaCount: 3
 
 image:
   repository: ghcr.io/andrewkmwangi/customer-service
-  tag: 631390c90118724f1cb4cf87f8aa233124321fbf
+  tag: bccff360c445631d47f36ed19a2aba76eef2ec57
   pullPolicy: IfNotPresent
 
 startupProbe:
