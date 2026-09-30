@@ -1,0 +1,16 @@
+replicaCount: 2
+
+image:
+  repository: ghcr.io/andrewkmwangi/transaction-service
+  tag: 7a859c40ea5983ee0b5db2daf0bca1033aa35a69
+  pullPolicy: IfNotPresent
+
+env:
+  SPRING_DATASOURCE_URL: "jdbc:postgresql://transaction-postgres:5432/baraza_transactions"
+  ACCOUNT_SERVICE_URL: "http://account-service:8081"
+
+startupProbe:
+  tcpSocket:
+    port: 8080
+  periodSeconds: 10
+  failureThreshold: 15

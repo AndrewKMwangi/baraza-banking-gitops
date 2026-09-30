@@ -1,0 +1,95 @@
+replicaCount: 1
+
+image:
+  repository: transaction-service
+  pullPolicy: IfNotPresent
+  tag: "1.0.0"
+
+env:
+  SPRING_DATASOURCE_URL: "jdbc:postgresql://transaction-postgres:5432/baraza_transactions"
+
+  SPRING_DATASOURCE_USERNAME:
+    secretKeyRef:
+      name: transaction-postgres-secret
+      key: POSTGRES_USER
+
+  SPRING_DATASOURCE_PASSWORD:
+    secretKeyRef:
+      name: transaction-postgres-secret
+      key: POSTGRES_PASSWORD
+
+  ACCOUNT_SERVICE_URL: "http://account-service:8081"
+
+imagePullSecrets: []
+
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  create: false
+  automount: true
+  annotations: {}
+  name: default
+
+podAnnotations: {}
+podLabels: {}
+
+podSecurityContext: {}
+securityContext: {}
+
+service:
+  type: ClusterIP
+  port: 8080
+
+ingress:
+  enabled: false
+  name: transaction-ingress
+  className: nginx
+  annotations: {}
+  hosts: []
+  tls: []
+
+httpRoute:
+  enabled: false
+  annotations: {}
+  parentRefs:
+    - name: gateway
+      sectionName: http
+  hostnames: []
+  rules: []
+
+resources:
+  requests:
+    cpu: 250m
+    memory: 256Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi
+
+startupProbe:
+  tcpSocket:
+    port: 8080
+  periodSeconds: 10
+  failureThreshold: 15
+
+livenessProbe:
+  tcpSocket:
+    port: 8080
+  initialDelaySeconds: 60
+  periodSeconds: 10
+
+readinessProbe:
+  tcpSocket:
+    port: 8080
+  initialDelaySeconds: 30
+  periodSeconds: 10
+
+autoscaling:
+  enabled: false
+
+volumes: []
+volumeMounts: []
+
+nodeSelector: {}
+tolerations: []
+affinity: {}

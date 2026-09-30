@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: transaction-service-dev
+  namespace: argocd
+
+spec:
+  project: default
+
+  source:
+    repoURL: https://github.com/AndrewKMwangi/baraza-banking-gitops.git
+    targetRevision: main
+    path: transaction-service/chart
+
+    helm:
+      valueFiles:
+        - values-gitops-dev.yaml
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: baraza-banking
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+
+    syncOptions:
+      - CreateNamespace=false
