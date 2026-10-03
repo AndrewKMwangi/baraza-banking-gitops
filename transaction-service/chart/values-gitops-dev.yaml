@@ -6,7 +6,18 @@ image:
   pullPolicy: IfNotPresent
 
 env:
-  SPRING_DATASOURCE_URL: "jdbc:postgresql://transaction-postgres:5432/baraza_transactions"
+  SPRING_DATASOURCE_URL: "jdbc:postgresql://postgres:5432/baraza_transactions"
+
+  SPRING_DATASOURCE_USERNAME:
+    secretKeyRef:
+      name: postgres-secret
+      key: POSTGRES_USER
+
+  SPRING_DATASOURCE_PASSWORD:
+    secretKeyRef:
+      name: postgres-secret
+      key: POSTGRES_PASSWORD
+
   ACCOUNT_SERVICE_URL: "http://account-service:8081"
 
 startupProbe:
