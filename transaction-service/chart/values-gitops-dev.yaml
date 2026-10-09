@@ -24,4 +24,4 @@ startupProbe:
   tcpSocket:
     port: 8080
   periodSeconds: 10
-  failureThreshold: 15
+  failureThreshold: 30
