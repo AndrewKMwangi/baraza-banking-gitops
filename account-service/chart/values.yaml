@@ -1,0 +1,47 @@
+replicaCount: 1
+
+image:
+  repository: ghcr.io/andrewkmwangi/account-service
+  pullPolicy: IfNotPresent
+  tag: "1ea63af61a77a82cc55005d3ac25e8e4fdadc680"
+
+service:
+  type: ClusterIP
+  port: 8081
+
+env:
+  SPRING_DATASOURCE_URL: "jdbc:postgresql://postgres:5432/baraza_core"
+  SPRING_DATASOURCE_USERNAME:
+    secretKeyRef:
+      name: postgres-secret
+      key: POSTGRES_USER
+  SPRING_DATASOURCE_PASSWORD:
+    secretKeyRef:
+      name: postgres-secret
+      key: POSTGRES_PASSWORD
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 384Mi
+  limits:
+    cpu: 500m
+    memory: 768Mi
+
+startupProbe:
+  tcpSocket:
+    port: 8081
+  periodSeconds: 10
+  failureThreshold: 30
+
+livenessProbe:
+  tcpSocket:
+    port: 8081
+  initialDelaySeconds: 60
+  periodSeconds: 10
+
+readinessProbe:
+  tcpSocket:
+    port: 8081
+  initialDelaySeconds: 30
+  periodSeconds: 10
